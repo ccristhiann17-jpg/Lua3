@@ -1,0 +1,1281 @@
+-- [ LeakD ] Tһіѕ Filе Ԝаѕ Dеоbfuѕсаteԁ Ву LеаκD
+-- [ Source ] https://discord.gg/AwGHNh7Z7T
+
+local runService = game:GetService("RunService")
+local workspaceService = game:GetService("Workspace")
+local players = game:GetService("Players")
+local userInputService = game:GetService("UserInputService")
+local window = getgenv().NyxModsUniversal.Window
+local localPlayer = players.LocalPlayer
+
+local v1 = {
+  Target = nil,
+  TargetCharacterAdded = nil,
+  Fling = { FlingInProgress = false, FlingPower = 14000, StopFling = false },
+  PunchFling = {
+    Enabled = false,
+    Clicked = false,
+    PunchAnimation = "139643944264511",
+    FlingInProgress = nil,
+    FlingPower = 14000,
+  },
+  Spectate = { Enabled = false },
+  Bang = {
+    Enabled = false,
+    Speed = 0.5,
+    BangAnimation = {
+      Id = 86711105179267,
+      TimePosition = 0.2,
+      Pause = true,
+      Speed = 0,
+      Looped = true,
+    },
+  },
+  FaceBang = {
+    Enabled = false,
+    Speed = 0.5,
+    FaceBangAnimation = {
+      Id = 86711105179267,
+      TimePosition = 0.2,
+      Pause = true,
+      Speed = 0,
+      Looped = true,
+    },
+  },
+  Suck = {
+    Enabled = false,
+    Speed = 0.5,
+    SuckAnimation = {
+      Id = 123822744060080,
+      TimePosition = 0.5,
+      Pause = true,
+      Speed = 0,
+      Looped = true,
+    },
+  },
+  GetBang = {
+    Enabled = false,
+    Speed = 0.5,
+    GetBangAnimation = {
+      Id = 80401449796551,
+      TimePosition = 0,
+      Pause = false,
+      Speed = 1,
+      Looped = true,
+    },
+  },
+  Orbit = {
+    Enabled = false,
+    Speed = 10,
+    Radius = 10,
+    Irregular = false,
+  },
+  Invisible = {
+    Enabled = false,
+    FloatingButton = false,
+    HumanoidHealthChanged = nil,
+    VoidRunService = nil,
+  },
+  PlayerLift = { Enabled = false, Height = 0 },
+}
+
+local function f1(p1)
+  local v2 = {}
+
+  for index, value in ipairs(players:GetPlayers()) do
+    if p1 and value == localPlayer then
+    else
+      table.insert(v2, value.Name .. " (" .. value.DisplayName .. ")")
+    end
+  end
+
+  return v2
+end
+
+local function f2(p2)
+  local lower = p2 and p2:lower()
+
+  for index2, value2 in ipairs(players:GetPlayers()) do
+    if value2.Name:lower():sub(1, #lower) == lower
+      or value2.DisplayName:lower():sub(1, #lower) == lower then
+      return value2
+    end
+  end
+end
+
+local function f3(p3)
+  local character = p3.Character
+
+  if character then
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+
+    if humanoidRootPart then
+      return humanoidRootPart
+    end
+
+    return
+  end
+end
+
+local function f4(p4)
+  local character2 = p4.Character
+
+  if character2 then
+    local humanoid = character2:FindFirstChild("Humanoid")
+
+    if humanoid then
+      return humanoid
+    end
+
+    return
+  end
+end
+
+local function f5(p5, p6)
+  local v3 = f4(p5)
+
+  if v3 then
+    for index3, value3 in ipairs(v3:GetPlayingAnimationTracks()) do
+      local animation = value3 and value3.Animation
+
+      if animation then
+        if animation.AnimationId == p6 or animation.AnimationId == "rbxassetid://" .. p6 then
+          return true
+        end
+      end
+    end
+
+    return nil
+  end
+
+  return nil
+end
+
+local function f6(p7, p8, timePosition, p9, p10)
+  local v4 = f4(localPlayer)
+
+  if v4 then
+    local animator = v4:FindFirstChild("Animator")
+
+    if animator then
+      local animation2 = Instance.new("Animation")
+      animation2.AnimationId = "rbxassetid://" .. p7
+
+      local loadAnimation = animator:LoadAnimation(animation2)
+      loadAnimation.Priority = Enum.AnimationPriority.Action4
+      loadAnimation:Play()
+      loadAnimation:AdjustSpeed(p9)
+      loadAnimation.TimePosition = timePosition
+
+      if p8 then
+        loadAnimation.TimePosition = timePosition
+        loadAnimation:AdjustSpeed(0)
+      end
+
+      if p10 then
+        loadAnimation.Looped = true
+      end
+    elseif v4 then
+      local animation3 = Instance.new("Animation")
+      animation3.AnimationId = "rbxassetid://" .. p7
+
+      local loadAnimation2 = v4:LoadAnimation(animation3)
+      loadAnimation2:Play()
+      loadAnimation2:AdjustSpeed(p9)
+      loadAnimation2.TimePosition = timePosition
+
+      if p8 then
+        loadAnimation2.TimePosition = timePosition
+        loadAnimation2.AdjustSpeed(0)
+      end
+    end
+  end
+end
+
+local function f7(p11)
+  local v5 = f4(localPlayer)
+
+  if v5 then
+    for index4, value4 in ipairs(v5:GetPlayingAnimationTracks()) do
+      local animation4 = value4 and value4.Animation
+
+      if animation4 then
+        if animation4.AnimationId == p11 or animation4.AnimationId == "rbxassetid://" .. p11 then
+          value4:Stop()
+        end
+      end
+    end
+
+    return nil
+  end
+
+  return nil
+end
+
+local function f8(p12)
+  local v6 = f3(p12)
+  local v7 = f3(localPlayer)
+
+  if v6 and v7 then
+    v7.CFrame = v6.CFrame
+  end
+end
+
+local function f9(p13)
+  if v1.Fling.FlingInProgress then
+    v1.Fling.StopFling = true
+    task.wait(0.1)
+    v1.Fling.StopFling = false
+  end
+
+  local v8 = false
+  local count = 0
+  local cframe
+
+  task.spawn(function()
+    v1.Fling.FlingInProgress = true
+
+    while true do
+      if p13 then
+        local v9 = f3(p13)
+        f4(p13)
+        local v10 = f3(localPlayer)
+
+        if v9 and v10 then
+          if sethiddenproperty then
+            sethiddenproperty(v10, "PhysicsRepRootPart", v9)
+          end
+
+          if not cframe then
+            cframe = v10.CFrame
+          end
+
+          if v8 or v1.Fling.StopFling or not p13 or count >= 100 then
+            if cframe then
+              for i = 1, 50 do
+                v10.Velocity = Vector3.new(0, 0, 0)
+                v10.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+                v10.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
+
+                runService.Heartbeat:Wait()
+                v10.CFrame = cframe
+                task.wait(0.01)
+              end
+            end
+
+            v1.Fling.FlingInProgress = false
+            break
+          end
+
+          if p13 and v9 and v9.Velocity.Magnitude >= 1000 then
+            v8 = true
+          end
+
+          if not v8 and not v1.Fling.StopFling and p13 and v9 and v10 then
+            local assemblyLinearVelocity = v9.AssemblyLinearVelocity
+
+            if not sethiddenproperty then
+              v10.CFrame = (v9.CFrame + assemblyLinearVelocity / 1.5) * CFrame.new(
+                math.random(-5, 5), math.random(-5, 5), math.random(-5, 5)
+              )
+
+              v10.CFrame = v10.CFrame * CFrame.Angles(
+                math.rad(math.random(-360, 360)), math.rad(math.random(-360, 360)),
+                math.rad(math.random(-360, 360))
+              )
+            else
+              v10.CFrame = v9.CFrame
+            end
+
+            v10.AssemblyLinearVelocity = Vector3.new(90000000, 90000000, 90000000)
+          end
+        end
+      end
+
+      count = count + 1
+      task.wait(0.01)
+    end
+  end)
+end
+
+local function f10()
+  for index5, value5 in ipairs(players:GetPlayers()) do
+    if v1.Fling.FlingInProgress then
+      while v1.Fling.FlingInProgress do
+        task.wait(1e-8)
+      end
+    end
+
+    if value5 ~= localPlayer then
+      f9(value5)
+    end
+  end
+end
+
+local f11
+
+function f11(p14)
+  local currentCamera = workspaceService.CurrentCamera
+  local v11 = f4(p14)
+
+  if v11 then
+    currentCamera.CameraSubject = v11
+  end
+end
+
+local function f12()
+  task.spawn(function()
+    local v12 = 1
+    local v13 = 1
+    local gravity = workspaceService.Gravity
+
+    while true do
+      local target = v1.Target
+      local speed = v1.Bang.Speed
+
+      if not v1.Bang.Enabled then
+        f7(v1.Bang.BangAnimation.Id)
+        workspaceService.Gravity = gravity
+        break
+      end
+
+      if v12 <= 1 then
+        v13 = 1
+      elseif v12 >= 7 then
+        v13 = 0
+      end
+
+      if v13 == 0 then
+        v12 = v12 - speed
+      elseif v13 == 1 then
+        v12 = v12 + speed
+      end
+
+      if target then
+        local v14 = f3(target)
+        local v15 = f3(localPlayer)
+
+        if v14 and v15 then
+          if sethiddenproperty then
+            sethiddenproperty(v15, "PhysicsRepRootPart", v14)
+          end
+
+          v15.CFrame = v14.CFrame * CFrame.new(0, 0, v12)
+          v15.CFrame = v15.CFrame * CFrame.Angles(0, math.rad(0), 0)
+
+          if not f5(localPlayer, v1.Bang.BangAnimation.Id) then
+            f6(
+              v1.Bang.BangAnimation.Id, v1.Bang.BangAnimation.Pause,
+              v1.Bang.BangAnimation.TimePosition, v1.Bang.BangAnimation.Speed,
+              v1.Bang.BangAnimation.Looped
+            )
+          end
+        end
+
+        task.wait(0.01)
+      else
+        f7(v1.Bang.BangAnimation.Id)
+        workspaceService.Gravity = gravity
+        break
+      end
+    end
+  end)
+end
+
+local function f13()
+  task.spawn(function()
+    local v16 = 1
+    local v17 = 1
+    local gravity2 = workspaceService.Gravity
+
+    while true do
+      local target2 = v1.Target
+      local speed2 = v1.FaceBang.Speed
+
+      if not v1.FaceBang.Enabled then
+        f7(v1.FaceBang.FaceBangAnimation.Id)
+        workspaceService.Gravity = gravity2
+        break
+      end
+
+      if v16 <= -5 then
+        v17 = 1
+      elseif v16 >= -1 then
+        v17 = 0
+      end
+
+      if v17 == 0 then
+        v16 = v16 - speed2
+      elseif v17 == 1 then
+        v16 = v16 + speed2
+      end
+
+      if target2 then
+        local character3 = target2.Character
+        local v18 = f3(localPlayer)
+
+        if character3 and v18 then
+          local head = character3:FindFirstChild("Head")
+          local humanoidRootPart2 = character3:FindFirstChild("HumanoidRootPart")
+
+          if head and humanoidRootPart2 then
+            if sethiddenproperty then
+              sethiddenproperty(v18, "PhysicsRepRootPart", humanoidRootPart2)
+            end
+
+            v18.CFrame = head.CFrame * CFrame.new(0, 1.5, v16)
+            v18.CFrame = v18.CFrame * CFrame.Angles(0, math.rad(180), 0)
+
+            if not f5(localPlayer, v1.FaceBang.FaceBangAnimation.Id) then
+              f6(
+                v1.FaceBang.FaceBangAnimation.Id, v1.FaceBang.FaceBangAnimation.Pause,
+                v1.FaceBang.FaceBangAnimation.TimePosition, v1.FaceBang.FaceBangAnimation.Speed,
+                v1.FaceBang.FaceBangAnimation.Looped
+              )
+            end
+          end
+        end
+
+        task.wait(0.01)
+      else
+        f7(v1.FaceBang.FaceBangAnimation.Id)
+        workspaceService.Gravity = gravity2
+        break
+      end
+    end
+  end)
+end
+
+local function f14()
+  task.spawn(function()
+    local v19 = 1
+    local v20 = 1
+    local gravity3 = workspaceService.Gravity
+
+    while true do
+      local target3 = v1.Target
+      local speed3 = v1.Suck.Speed
+
+      if not v1.Suck.Enabled then
+        f7(v1.Suck.SuckAnimation.Id)
+        workspaceService.Gravity = gravity3
+        break
+      end
+
+      if v19 <= -7 then
+        v20 = 1
+      elseif v19 >= -2.5 then
+        v20 = 0
+      end
+
+      if v20 == 0 then
+        v19 = v19 - speed3
+      elseif v20 == 1 then
+        v19 = v19 + speed3
+      end
+
+      if target3 then
+        local v21 = f3(localPlayer)
+        local v22 = f3(target3)
+
+        if v22 and v21 then
+          if sethiddenproperty then
+            sethiddenproperty(v21, "PhysicsRepRootPart", v22)
+          end
+
+          v21.CFrame = v22.CFrame * CFrame.new(0, 0.5, v19)
+          v21.CFrame = v21.CFrame * CFrame.Angles(0, math.rad(180), 0)
+
+          if not f5(localPlayer, v1.Suck.SuckAnimation.Id) then
+            f6(
+              v1.Suck.SuckAnimation.Id, v1.Suck.SuckAnimation.Pause,
+              v1.Suck.SuckAnimation.TimePosition, v1.Suck.SuckAnimation.Speed,
+              v1.Suck.SuckAnimation.Looped
+            )
+          end
+        end
+
+        task.wait(0.01)
+      else
+        f7(v1.Suck.SuckAnimation.Id)
+        workspaceService.Gravity = gravity3
+        break
+      end
+    end
+  end)
+end
+
+local function f15()
+  task.spawn(function()
+    local v23 = 1
+    local v24 = 1
+    local gravity4 = workspaceService.Gravity
+
+    while true do
+      local target4 = v1.Target
+      local speed4 = v1.GetBang.Speed
+
+      if not v1.GetBang.Enabled then
+        f7(v1.GetBang.GetBangAnimation.Id)
+        workspaceService.Gravity = gravity4
+        break
+      end
+
+      if v23 <= -7 then
+        v24 = 1
+      elseif v23 >= -1 then
+        v24 = 0
+      end
+
+      if v24 == 0 then
+        v23 = v23 - speed4
+      elseif v24 == 1 then
+        v23 = v23 + speed4
+      end
+
+      if target4 then
+        local v25 = f3(localPlayer)
+        local v26 = f3(target4)
+
+        if v26 and v25 then
+          if sethiddenproperty then
+            sethiddenproperty(v25, "PhysicsRepRootPart", v26)
+          end
+
+          v25.CFrame = v26.CFrame * CFrame.new(0, 0.5, v23)
+
+          if not f5(localPlayer, v1.GetBang.GetBangAnimation.Id) then
+            f6(
+              v1.GetBang.GetBangAnimation.Id, v1.GetBang.GetBangAnimation.Pause,
+              v1.GetBang.GetBangAnimation.TimePosition, v1.GetBang.GetBangAnimation.Speed,
+              v1.GetBang.GetBangAnimation.Looped
+            )
+          end
+        end
+
+        task.wait(0.01)
+      else
+        f7(v1.GetBang.GetBangAnimation.Id)
+        workspaceService.Gravity = gravity4
+        break
+      end
+    end
+  end)
+end
+
+local function f16()
+  task.spawn(function()
+    local total = 0
+    local gravity5 = workspaceService.Gravity
+    local v27, v28, v29
+
+    while true do
+      if not v1.Orbit.Enabled then
+        workspaceService.Gravity = gravity5
+        break
+      else
+        local target5 = v1.Target
+        local v30 = v1.Orbit.Speed / 200
+        local radius = v1.Orbit.Radius
+        local irregular = v1.Orbit.Irregular
+
+        if target5 then
+          local v31 = f3(target5)
+          local v32 = f3(localPlayer)
+
+          if v31 and v32 then
+            if sethiddenproperty then
+              sethiddenproperty(v32, "PhysicsRepRootPart", v31)
+            end
+
+            if irregular then
+              v28 = math.sin(total) * radius
+              v27 = math.sin(total) * math.random(-5, 5)
+              v29 = math.cos(total) * radius
+            else
+              v27 = 0
+              v28 = math.sin(total) * radius
+              v29 = math.cos(total) * radius
+            end
+
+            v32.CFrame = v31.CFrame * CFrame.new(v28, v27, v29)
+            workspaceService.Gravity = 0
+            total = total + v30
+          end
+
+          task.wait(0.01)
+        else
+          workspaceService.Gravity = gravity5
+          break
+        end
+      end
+    end
+  end)
+end
+
+local function f17()
+  local v33 = {}
+  local connect
+
+  connect = runService.Heartbeat:Connect(function()
+    local character4 = localPlayer.Character
+
+    if character4 then
+      if not v1.PunchFling.Enabled then
+        for index6, value6 in ipairs(players:GetPlayers()) do
+          if not v33[value6] then
+          else
+            local character5 = value6.Character
+
+            if character5 then
+              for index7, value7 in ipairs(character5:GetChildren()) do
+                if not value7:IsA("BasePart") then
+                elseif v33[value6] and v33[value6][value7.Name] then
+                  value7.CanCollide = v33[value6][value7.Name]
+                end
+              end
+            end
+          end
+        end
+
+        connect:Disconnect()
+      end
+
+-- https://discord.gg/AwGHNh7Z7T
+      local humanoidRootPart3 = character4:FindFirstChild("HumanoidRootPart")
+
+      if humanoidRootPart3 then
+        for index8, value8 in ipairs(players:GetPlayers()) do
+          if not v33[value8] then
+            v33[value8] = {}
+          end
+
+          local character6 = value8.Character
+
+          if character6 then
+            for index9, value9 in ipairs(character6:GetChildren()) do
+              if not value9:IsA("BasePart") then
+              else
+                if not v33[value8][value9.Name] then
+                  v33[value8][value9.Name] = value9.CanCollide
+                end
+
+                value9.CanCollide = false
+              end
+            end
+          end
+        end
+
+        if v1.PunchFling.Clicked then
+          local assemblyLinearVelocity2 = humanoidRootPart3.AssemblyLinearVelocity
+
+          humanoidRootPart3.AssemblyLinearVelocity = Vector3.new(
+            0, v1.PunchFling.FlingPower, v1.PunchFling.FlingPower
+          )
+
+          runService.RenderStepped:Wait()
+          humanoidRootPart3.AssemblyLinearVelocity = Vector3.zero
+          runService.RenderStepped:Wait()
+          humanoidRootPart3.AssemblyLinearVelocity = assemblyLinearVelocity2
+        end
+      end
+    end
+  end)
+end
+
+local function f18()
+  local findFirstChild = workspaceService:FindFirstChild(localPlayer.Name)
+
+  if findFirstChild then
+    if v1.Invisible.FakeCharacter then
+      v1.Invisible.FakeCharacter:Destroy()
+      v1.Invisible.FakeCharacter = nil
+    end
+
+    findFirstChild.Archivable = true
+    local clone = findFirstChild:Clone()
+    local getDescendants = clone.GetDescendants
+    clone.Name = localPlayer.Name .. "_Fake"
+
+    for index10, value10 in ipairs(getDescendants(clone)) do
+      if value10:IsA("BasePart") then
+        value10.Velocity = Vector3.zero
+        value10.AssemblyAngularVelocity = Vector3.zero
+        value10.AssemblyLinearVelocity = Vector3.zero
+      end
+    end
+
+    clone.Parent = workspaceService
+    v1.Invisible.FakeCharacter = clone
+    return clone
+  end
+end
+
+local function f19()
+  local v34
+
+  for index11, value11 in ipairs(workspaceService:GetDescendants()) do
+    if value11:IsA("Model") then
+      if value11.Name == localPlayer.Name and value11 ~= v1.Invisible.FakeCharacter then
+        v34 = value11
+        break
+      end
+    end
+  end
+
+  return v34
+end
+
+local function f20(p15)
+  local currentCamera2 = workspaceService.CurrentCamera
+
+  if currentCamera2 then
+    local name = currentCamera2.CameraSubject and currentCamera2.CameraSubject.Name
+
+    if name then
+      local findFirstChild2 = p15 and p15:FindFirstChild(name)
+
+      if findFirstChild2 then
+        currentCamera2.CameraSubject = findFirstChild2
+        localPlayer.Character = p15
+      end
+    end
+  end
+end
+
+local function f21(p16)
+  local fallenPartsDestroyHeight = workspaceService.FallenPartsDestroyHeight
+  local v35 = f19()
+  local v36, v37
+
+  if v35 then
+    local humanoidRootPart4 = v35:FindFirstChild("HumanoidRootPart")
+
+    if humanoidRootPart4 then
+      local cframe2 = p16 or humanoidRootPart4.CFrame
+
+      if not v36 then
+        v36 = cframe2
+      end
+
+      humanoidRootPart4.CFrame = CFrame.new(0, 180000000, 90000000)
+      v37 = f18()
+
+      if v37 then
+        local humanoidRootPart5 = v37:FindFirstChild("HumanoidRootPart")
+
+        if humanoidRootPart5 then
+          humanoidRootPart5.CFrame = cframe2
+          f20(v37)
+        end
+
+        for index12, value12 in ipairs(v37:GetDescendants()) do
+          if value12:IsA("BasePart") then
+            if value12.Name ~= "HumanoidRootPart" then
+              value12.Transparency = 0.7
+            end
+          end
+        end
+      end
+
+      if v1.Invisible.VoidRunService then
+        v1.Invisible.VoidRunService:Disconnect()
+        v1.Invisible.VoidRunService = nil
+      end
+
+      v1.Invisible.VoidRunService = runService.Heartbeat:Connect(function()
+        if v37 then
+          local humanoidRootPart6 = v37:FindFirstChild("HumanoidRootPart")
+
+          if humanoidRootPart6 then
+            if humanoidRootPart6.Position.Y - fallenPartsDestroyHeight <= 5 then
+              if v36 then
+                humanoidRootPart6.CFrame = v36
+              end
+            end
+          end
+        end
+      end)
+
+      if v1.Invisible.HumanoidHealthChanged then
+        v1.Invisible.HumanoidHealthChanged:Disconnect()
+        v1.Invisible.HumanoidHealthChanged = nil
+      end
+
+      local humanoid2 = v37:FindFirstChild("Humanoid")
+
+      if humanoid2 then
+        v1.Invisible.HumanoidHealthChanged = humanoid2.HealthChanged:Connect(function(p17)
+          if p17 <= 0 then
+            task.wait(players.RespawnTime)
+            f21(v36)
+          end
+        end)
+      end
+    end
+  end
+end
+
+local function f22()
+  local v38 = f19()
+  local fakeCharacter = v1.Invisible.FakeCharacter
+
+  if v38 and fakeCharacter then
+    local humanoidRootPart7 = v38:FindFirstChild("HumanoidRootPart")
+    local humanoidRootPart8 = fakeCharacter:FindFirstChild("HumanoidRootPart")
+
+    if humanoidRootPart7 and humanoidRootPart8 then
+      local cframe3 = humanoidRootPart8.CFrame
+
+      if v1.Invisible.HumanoidHealthChanged then
+        v1.Invisible.HumanoidHealthChanged:Disconnect()
+        v1.Invisible.HumanoidHealthChanged = nil
+      end
+
+      if v1.Invisible.VoidRunService then
+        v1.Invisible.VoidRunService:Disconnect()
+        v1.Invisible.VoidRunService = nil
+      end
+
+      fakeCharacter:Destroy()
+      v1.Invisible.FakeCharacter = nil
+
+      for index13, value13 in ipairs(v38:GetDescendants()) do
+        if value13:IsA("BasePart") then
+          value13.Velocity = Vector3.zero
+          value13.AssemblyAngularVelocity = Vector3.zero
+          value13.AssemblyLinearVelocity = Vector3.zero
+        end
+      end
+
+      humanoidRootPart7.CFrame = cframe3
+      f20(v38)
+    end
+  end
+end
+
+local function f23()
+  local v39 = {}
+  local gravity6
+
+  task.spawn(function()
+    while true do
+      if not v1.PlayerLift.Enabled then
+        if gravity6 then
+          workspaceService.Gravity = gravity6
+        end
+
+        for index14, value14 in ipairs(localPlayer.Character:GetDescendants()) do
+          if value14:IsA("BasePart") then
+            value14.CanCollide = v39[value14]
+          end
+        end
+
+        if f5(localPlayer, 131895285930140) then
+          f7(131895285930140)
+        end
+
+        break
+      else
+        local target6 = v1.Target
+
+        if target6 then
+          if target6.Character then
+            local v40 = f3(target6)
+            local v41 = f3(localPlayer)
+
+            if v40 and v41 then
+              for index15, value15 in ipairs(localPlayer.Character:GetDescendants()) do
+                if value15:IsA("BasePart") then
+                  v39[value15] = value15.CanCollide
+                end
+              end
+
+              if not gravity6 then
+                gravity6 = workspaceService.Gravity
+              end
+
+              if sethiddenproperty then
+                sethiddenproperty(v41, "PhysicsRepRootPart", v40)
+              end
+
+              v41.CFrame = CFrame.new(v40.Position.X, v40.Position.Y - 7, v40.Position.Z)
+                * CFrame.new(0, v1.PlayerLift.Height, 0)
+
+              local character7 = localPlayer.Character
+
+              if character7 then
+                for index16, value16 in ipairs(character7:GetDescendants()) do
+                  if value16:IsA("BasePart") then
+                    value16.CanCollide = false
+                  end
+                end
+
+                for index17, value17 in ipairs(character7:GetDescendants()) do
+                  if value17:IsA("BasePart") then
+                    value17.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+                    value17.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
+                    value17.Velocity = Vector3.new(0, 0, 0)
+                  end
+                end
+              end
+
+              if not f5(localPlayer, 131895285930140) then
+                f6(131895285930140, false, 0, 1, true)
+              end
+
+              workspaceService.Gravity = 0
+            else
+              if gravity6 then
+                workspaceService.Gravity = gravity6
+              end
+
+              for index18, value18 in ipairs(localPlayer.Character:GetDescendants()) do
+                if value18:IsA("BasePart") then
+                  value18.CanCollide = v39[value18]
+                end
+              end
+
+              if f5(localPlayer, 131895285930140) then
+                f7(131895285930140)
+              end
+            end
+          else
+            if gravity6 then
+              workspaceService.Gravity = gravity6
+            end
+
+            for index19, value19 in ipairs(localPlayer.Character:GetDescendants()) do
+              if value19:IsA("BasePart") then
+                value19.CanCollide = v39[value19]
+              end
+            end
+
+            if f5(localPlayer, 131895285930140) then
+              f7(131895285930140)
+            end
+          end
+
+          task.wait(0.001)
+        else
+          if gravity6 then
+            workspaceService.Gravity = gravity6
+          end
+
+          for index20, value20 in ipairs(localPlayer.Character:GetDescendants()) do
+            if value20:IsA("BasePart") then
+              value20.CanCollide = v39[value20]
+            end
+          end
+
+          if f5(localPlayer, 131895285930138) then
+            f7(131895285930140)
+          end
+
+          break
+        end
+      end
+    end
+  end)
+end
+
+local trollTab = window:CreateTab("Troll")
+trollTab:CreateSection("Select Target")
+
+trollTab:CreateInput({
+  Name = "Player Name",
+  PlaceholderText = "Write a name...",
+  Callback = function(value21)
+    local v42 = f2(value21)
+
+    if v42 then
+      v1.Target = v42
+
+      if v1.TargetCharacterAdded then
+        v1.TargetCharacterAdded:Disconnect()
+        v1.TargetCharacterAdded = nil
+      end
+
+      if not v1.TargetCharacterAdded then
+        v1.TargetCharacterAdded = v42.CharacterAdded:Connect(function(character8)
+          if not f4(v42) then
+            character8:WaitForChild("Humanoid")
+          end
+
+          if v1.Spectate.Enabled then
+            if v1.Target then
+              f11(v1.Target)
+            end
+          end
+        end)
+      end
+    end
+  end,
+})
+
+local selectPlayerDropdown = trollTab:CreateDropdown({
+  Name = "Select Player",
+  Options = f1(true),
+  Callback = function(value22)
+    local v43 = f2(value22:match("^%S+") or "xduwuxduwuxd")
+
+    if v43 then
+      v1.Target = v43
+
+      if v1.TargetCharacterAdded then
+        v1.TargetCharacterAdded:Disconnect()
+        v1.TargetCharacterAdded = nil
+      end
+
+      if not v1.TargetCharacterAdded then
+        v1.TargetCharacterAdded = v43.CharacterAdded:Connect(function(character9)
+          if not f4(v43) then
+            character9:WaitForChild("Humanoid")
+          end
+
+          if v1.Spectate.Enabled then
+            if v1.Target then
+              f11(v1.Target)
+            end
+          end
+        end)
+      end
+    end
+  end,
+})
+
+trollTab:CreateToggle({
+  Name = "Spectate",
+  CurrentValue = false,
+  Callback = function(value23)
+    v1.Spectate.Enabled = value23
+
+    if value23 then
+      f11(v1.Target)
+    else
+      f11(localPlayer)
+    end
+  end,
+})
+
+trollTab:CreateButton({
+  Name = "Teleport",
+  Callback = function()
+    if v1.Target then
+      f8(v1.Target)
+    end
+  end,
+})
+
+trollTab:CreateButton({ Name = "Fling Target", Callback = function() f9(v1.Target) end })
+trollTab:CreateButton({ Name = "Fling All", Callback = function() f10() end })
+
+trollTab:CreateToggle({
+  Name = "Punch Fling",
+  CurrentValue = false,
+  Callback = function(value24)
+    v1.PunchFling.Enabled = value24
+
+    if value24 then
+      f17()
+    end
+  end,
+})
+
+trollTab:CreateToggle({
+  Name = "Player Lift",
+  CurrentValue = false,
+  Callback = function(value25)
+    v1.PlayerLift.Enabled = value25
+
+    if value25 then
+      f23()
+    end
+  end,
+})
+
+trollTab:CreateSlider({
+  Name = "Player Lift Height",
+  Range = { 0, 20 },
+  Increment = 0.1,
+  Suffix = "",
+  CurrentValue = 0,
+  Callback = function(value26) v1.PlayerLift.Height = value26 end,
+})
+
+trollTab:CreateToggle({
+  Name = "Bang",
+  CurrentValue = false,
+  Callback = function(value27)
+    v1.Bang.Enabled = value27
+
+    if value27 then
+      f12()
+    end
+  end,
+})
+
+trollTab:CreateSlider({
+  Name = "Bang speed",
+  Range = { 0.1, 2 },
+  Increment = 0.01,
+  Suffix = "/s",
+  CurrentValue = 0.5,
+  Callback = function(value28) v1.Bang.Speed = value28 end,
+})
+
+trollTab:CreateToggle({
+  Name = "Face Bang",
+  CurrentValue = false,
+  Callback = function(value29)
+    v1.FaceBang.Enabled = value29
+
+    if value29 then
+      f13()
+    end
+  end,
+})
+
+trollTab:CreateSlider({
+  Name = "Face Bang speed",
+  Range = { 0.1, 2 },
+  Increment = 0.01,
+  Suffix = "/s",
+  CurrentValue = 0.5,
+  Callback = function(value30) v1.FaceBang.Speed = value30 end,
+})
+
+trollTab:CreateToggle({
+  Name = "Suck",
+  CurrentValue = false,
+  Callback = function(value31)
+    v1.Suck.Enabled = value31
+
+    if value31 then
+      f14()
+    end
+  end,
+})
+
+trollTab:CreateSlider({
+  Name = "Suck speed",
+  Range = { 0.1, 2 },
+  Increment = 0.01,
+  Suffix = "/s",
+  CurrentValue = 0.5,
+  Callback = function(value32) v1.Suck.Speed = value32 end,
+})
+
+trollTab:CreateToggle({
+  Name = "Get bang",
+  CurrentValue = false,
+  Callback = function(value33)
+    v1.GetBang.Enabled = value33
+
+    if value33 then
+      f15()
+    end
+  end,
+})
+
+trollTab:CreateSlider({
+  Name = "Get bang speed",
+  Range = { 0.1, 2 },
+  Increment = 0.01,
+  Suffix = "/s",
+  CurrentValue = 0.5,
+  Callback = function(value34) v1.GetBang.Speed = value34 end,
+})
+
+trollTab:CreateToggle({
+  Name = "Orbit",
+  CurrentValue = false,
+  Callback = function(value35)
+    v1.Orbit.Enabled = value35
+
+    if value35 then
+      f16()
+    end
+  end,
+})
+
+trollTab:CreateToggle({
+  Name = "Irregular orbit",
+  CurrentValue = false,
+  Callback = function(value36) v1.Orbit.Irregular = value36 end,
+})
+
+trollTab:CreateSlider({
+  Name = "Orbit speed",
+  Range = { 0.1, 100 },
+  Increment = 0.01,
+  Suffix = "/s",
+  CurrentValue = 10,
+  Callback = function(value37) v1.Orbit.Speed = value37 end,
+})
+
+trollTab:CreateSlider({
+  Name = "Orbit radius",
+  Range = { 0.1, 100 },
+  Increment = 0.01,
+  Suffix = "/s",
+  CurrentValue = 10,
+  Callback = function(value38) v1.Orbit.Radius = value38 end,
+})
+
+trollTab:CreateToggle({
+  Name = "Invisible",
+  CurrentValue = false,
+  Callback = function(value39)
+    v1.Invisible.Enabled = value39
+
+    if value39 then
+      f21(nil)
+    else
+      f22()
+    end
+  end,
+})
+
+localPlayer.CharacterAdded:Connect(function(character10)
+  if not f4(localPlayer) then
+    character10:WaitForChild("Humanoid")
+  end
+
+  if v1.Spectate.Enabled then
+    if v1.Target then
+      f11(v1.Target)
+    end
+  end
+end)
+
+userInputService.InputBegan:Connect(function(input)
+  task.spawn(function()
+    if input.UserInputType == Enum.UserInputType.MouseButton1
+      or input.UserInputType == Enum.UserInputType.Touch then
+      if v1.PunchFling.Enabled then
+        if v1.PunchFling.FlingInProgress then
+          return
+        end
+
+        v1.PunchFling.FlingInProgress = true
+        f6(v1.PunchFling.PunchAnimation, false, 0, 1, false)
+        task.wait(0.3)
+        v1.PunchFling.Clicked = true
+        task.wait(0.5)
+        v1.Clicked = false
+        f7(v1.PunchFling.PunchAnimation)
+        task.wait(1)
+        v1.PunchFling.FlingInProgress = false
+        return
+      end
+
+      return
+    end
+  end)
+end)
+
+players.PlayerAdded:Connect(function(player) selectPlayerDropdown:UpdateOnClose(f1(true)) end)
+players.PlayerRemoving:Connect(function(player2) selectPlayerDropdown:UpdateOnClose(f1(true)) end)
+
+-- https://discord.gg/AwGHNh7Z7T
