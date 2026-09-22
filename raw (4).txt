@@ -1,0 +1,45 @@
+---@source Оrіgіnаl Сoԁе Dеоbfuѕcatеԁ Ву LeаκD
+---@see https://discord.gg/AwGHNh7Z7T
+
+if not pcall(function()
+  if ({
+    [2753915549] = true,
+    [85211729168715] = true,
+    [4442272183] = true,
+    [79091703265657] = true,
+    [7449423635] = true,
+    [100117331123090] = true,
+  })[game.PlaceId] then
+    loadstring(game:HttpGet("https://github.com/TlDinhKhoi/Util/raw/refs/heads/main/ThongBao/ApiNoEncodeDuyBeo"))()
+  end
+end) then
+end
+
+local nyxModsUniversal = getgenv().NyxModsUniversal
+
+local homeTab = nyxModsUniversal.Window:CreateTab("Home")
+homeTab:CreateSection("Welcome")
+
+homeTab:CreateParagraph({
+  Title = "Welcome to NyxMods Universal!",
+  Content = "Thanks for using NyxMods Universal.\nI hope you enjoy the hub! 💜💚",
+})
+
+homeTab:CreateSection("Script info")
+
+homeTab:CreateParagraph({
+  Title = "Hub Info",
+  Content = "Version: " .. nyxModsUniversal.Version
+    .. "\nStatus: Stable\nGame: Universal\nDeveloper: NyxMods",
+})
+
+homeTab:CreateSection("Credits")
+homeTab:CreateParagraph({ Title = "Credits to:", Content = "Developer: NyxMods" })
+homeTab:CreateSection("ComingSoon")
+
+homeTab:CreateParagraph({
+  Title = "Coming soon",
+  Content = "✓ More Universal Features\n✓ Game Support\n✓ Performance Improvements",
+})
+
+-- https://discord.gg/AwGHNh7Z7T
